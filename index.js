@@ -87,7 +87,23 @@ const fetchAndPostTrashLevel = async () => {
 };
 
 // Schedule the task to run every hour
-cron.schedule("0 * * * *", fetchAndPostTrashLevel); // Runs at the start of every hour
+cron.schedule("0 * * * *", () => {
+    console.log("Cron job started at:", new Date().toISOString());
+    fetchAndPostTrashLevel().catch((error) => {
+      console.error("Error in cron job:", error);
+    });
+  });
+
+app.get("/trigger", async (req, res) => {
+    console.log("Manual trigger started at:", new Date().toISOString());
+    try {
+      await fetchAndPostTrashLevel();
+      res.send("Trash levels posted successfully!");
+    } catch (error) {
+      console.error("Error in manual trigger:", error);
+      res.status(500).send("Error posting trash levels.");
+    }
+  });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
