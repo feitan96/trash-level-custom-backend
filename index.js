@@ -105,6 +105,10 @@ app.get("/trigger", async (req, res) => {
     }
   });
 
+  app.get("/test", (req, res) => {
+    res.send("Backend is working!");
+  });
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
