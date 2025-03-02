@@ -10,8 +10,9 @@ const serviceAccount = JSON.parse(
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+  });
 
 const db = admin.firestore();
 const realtimeDb = admin.database();
